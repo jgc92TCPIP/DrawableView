@@ -33,6 +33,8 @@ private struct ImageCreationResponse {
 
 public class DrawableView: UIView {
     
+    public var isDrawingEnabled: Bool = true
+    
     // MARK: - Public Properties
     public weak var delegate: DrawableViewDelegate?
     
@@ -74,6 +76,8 @@ public class DrawableView: UIView {
     fileprivate var undoWasTapped: Bool = false
     
     override public func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent?) {
+        guard isDrawingEnabled else { return }
+
         delegate?.setDrawing(true)
         delegate?.didStartDrawing()
 
@@ -86,12 +90,16 @@ public class DrawableView: UIView {
     }
     
     override public func touchesMoved( _ touches: Set<UITouch>, with event: UIEvent?) {
+        guard isDrawingEnabled else { return }
+
         if let touch = touches.first {
             drawFromTouch(touch)
         }
     }
     
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard isDrawingEnabled else { return }
+
         delegate?.setDrawing(false)
         if let touch = touches.first {
             drawFromTouch(touch)
