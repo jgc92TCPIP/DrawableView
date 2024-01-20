@@ -16,6 +16,7 @@ public protocol DrawableViewDelegate: class {
     ///
     /// - Returns: Void
     func setDrawing(_ isDrawing: Bool)
+    func didStartDrawing()
 }
 
 private struct Constants {
@@ -74,6 +75,8 @@ public class DrawableView: UIView {
     
     override public func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent?) {
         delegate?.setDrawing(true)
+        delegate?.didStartDrawing()
+
         if let touch = touches.first {
             let point = touch.location(in: self)
             let brush = Brush(width: strokeWidth, color: strokeColor, transparency: strokeTransparency)
